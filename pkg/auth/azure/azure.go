@@ -37,7 +37,7 @@ func NewGroupsClient(conf AuthConfig) (groupsClient resources.GroupsClient, err 
 	}
 
 	groupsClient.Authorizer = a
-	groupsClient.AddToUserAgent(fmt.Sprintf("Go-Cloud-Peering-v%s", "0.1.0"))
+	groupsClient.AddToUserAgent(fmt.Sprintf("Go-Cloud-Actions-v%s", "0.1.0"))
 	return groupsClient, nil
 }
 
@@ -59,7 +59,7 @@ func NewVirtualNetworkPeeringsClient(conf AuthConfig) (vnpc network.VirtualNetwo
 			t.SetSender(sender)
 		}
 		vnpc.Authorizer = autorest.NewMultiTenantServicePrincipalTokenAuthorizer(token)
-		vnpc.UserAgent = fmt.Sprintf("Go-Cloud-Peering-v%s", "0.1.0")
+		vnpc.UserAgent = fmt.Sprintf("Go-Cloud-Actions-v%s", "0.1.0")
 		vnpc.Sender = sender
 		return vnpc, err
 	}
@@ -67,7 +67,7 @@ func NewVirtualNetworkPeeringsClient(conf AuthConfig) (vnpc network.VirtualNetwo
 	if err != nil {
 		return vnpc, errors.Wrap(err, "failed to authorize with credentials")
 	}
-	vnpc.UserAgent = fmt.Sprintf("Go-Cloud-Peering-v%s", "0.1.0")
+	vnpc.UserAgent = fmt.Sprintf("Go-Cloud-Actions-v%s", "0.1.0")
 	vnpc.Sender = autorest.CreateSender()
 	return
 }
@@ -82,7 +82,7 @@ func NewApplicationsClient(conf AuthConfig) (appsClient graphrbac.ApplicationsCl
 	}
 
 	appClient.Authorizer = a
-	appClient.AddToUserAgent(fmt.Sprintf("Go-Cloud-Peering-v%s", "0.1.0"))
+	appClient.AddToUserAgent(fmt.Sprintf("Go-Cloud-Actions-v%s", "0.1.0"))
 	return appClient, nil
 }
 
@@ -95,7 +95,7 @@ func NewRoleDefinitionsClient(conf AuthConfig) (rdClient authorization.RoleDefin
 		return rdClient, errors.Wrap(err, "failed to get new azure role definitions client")
 	}
 	rdClient.Authorizer = a
-	rdClient.AddToUserAgent(fmt.Sprintf("Go-Cloud-Peering-v%s", "0.1.0"))
+	rdClient.AddToUserAgent(fmt.Sprintf("Go-Cloud-Actions-v%s", "0.1.0"))
 	return rdClient, nil
 }
 
@@ -107,7 +107,7 @@ func NewServicePrincipalsClient(conf AuthConfig) (spClient graphrbac.ServicePrin
 		return spClient, errors.Wrap(err, "failed to get new azure authorizer")
 	}
 	spClient.Authorizer = a
-	spClient.AddToUserAgent(fmt.Sprintf("Go-Cloud-Peering-v%s", "0.1.0"))
+	spClient.AddToUserAgent(fmt.Sprintf("Go-Cloud-Actions-v%s", "0.1.0"))
 	return spClient, nil
 }
 
@@ -119,7 +119,7 @@ func NewContainerInstanceClient(conf AuthConfig) (cgClient containerinstance.Con
 		return cgClient, errors.Wrap(err, "failed to get new azure authorizer")
 	}
 	cgClient.Authorizer = a
-	cgClient.AddToUserAgent(fmt.Sprintf("Go-Cloud-Peering-v%s", "0.1.0"))
+	cgClient.AddToUserAgent(fmt.Sprintf("Go-Cloud-Actions-v%s", "0.1.0"))
 	return
 }
 
@@ -131,7 +131,7 @@ func NewNetworkProfilesClient(conf AuthConfig) (profClient network.ProfilesClien
 		return profClient, errors.Wrap(err, "failed to get new azure authorizer")
 	}
 	profClient.Authorizer = a
-	profClient.AddToUserAgent(fmt.Sprintf("Go-Cloud-Peering-v%s", "0.1.0"))
+	profClient.AddToUserAgent(fmt.Sprintf("Go-Cloud-Actions-v%s", "0.1.0"))
 	return
 }
 
@@ -143,7 +143,7 @@ func NewVirtualNetworksClient(conf AuthConfig) (vnetClient network.VirtualNetwor
 		return vnetClient, errors.Wrap(err, "failed to get new azure authorizer")
 	}
 	vnetClient.Authorizer = a
-	vnetClient.AddToUserAgent(fmt.Sprintf("Go-Cloud-Peering-v%s", "0.1.0"))
+	vnetClient.AddToUserAgent(fmt.Sprintf("Go-Cloud-Actions-v%s", "0.1.0"))
 	return
 }
 
@@ -155,7 +155,7 @@ func NewSubnetsClient(conf AuthConfig) (snetClient network.SubnetsClient, err er
 		return snetClient, errors.Wrap(err, "failed to get new azure authorizer")
 	}
 	snetClient.Authorizer = a
-	snetClient.AddToUserAgent(fmt.Sprintf("Go-Cloud-Peering-v%s", "0.1.0"))
+	snetClient.AddToUserAgent(fmt.Sprintf("Go-Cloud-Actions-v%s", "0.1.0"))
 	return
 }
 
