@@ -1,0 +1,45 @@
+apiVersion: 2019-12-01
+location: eastus
+name: PostgresContainerGroup
+resourceGroup: myresourcegroup
+properties:
+  containers:
+  - name: pgexporter
+    properties:
+      environmentVariables:
+      - name: DATA_SOURCE_NAME
+        value: "postgresql://pgadmin01%40pgtest01:mypass@10.1.0.4:5432/postgres?sslmode=require"
+      image: quay.io/prometheuscommunity/postgres-exporter:latest
+      resources:
+        requests:
+          cpu: 1
+          memoryInGb: 1.5
+      ports:
+      - port: 9187
+  - name: grafana-agent
+    properties:
+      environmentVariables:
+      - name: CONFIG
+      # Base64 encoded agent.yaml file
+        value: "c2VydmVyOgogIGxvZ19sZXZlbDogaW5mbwoKcHJvbWV0aGV1czoKICBnbG9iYWw6CiAgICBzY3JhcGVfaW50ZXJ2YWw6IDE1cwogIGNvbmZpZ3M6CiAgICAtIG5hbWU6IHRlc3QKICAgICAgaG9zdF9maWx0ZXI6IGZhbHNlCiAgICAgIHNjcmFwZV9jb25maWdzOgogICAgICAgIC0gam9iX25hbWU6ICdhZ2VudCcKICAgICAgICAgIG1ldHJpY3NfcGF0aDogL21ldHJpY3MKICAgICAgICAgIHNjaGVtZTogaHR0cAogICAgICAgICAgc3RhdGljX2NvbmZpZ3M6CiAgICAgICAgICAtIHRhcmdldHM6IFsnbG9jYWxob3N0OjkwOTAnXQogICAgICAgIC0gam9iX25hbWU6ICdwb3N0Z3JlcycKICAgICAgICAgIHNjcmFwZV9pbnRlcnZhbDogNjBzCiAgICAgICAgICBzY3JhcGVfdGltZW91dDogMTBzCiAgICAgICAgICBtZXRyaWNzX3BhdGg6IC9tZXRyaWNzCiAgICAgICAgICBzY2hlbWU6IGh0dHAKICAgICAgICAgIHN0YXRpY19jb25maWdzOgogICAgICAgICAgLSB0YXJnZXRzOgogICAgICAgICAgICAtIGxvY2FsaG9zdDo5MTg3CgogICAgICByZW1vdGVfd3JpdGU6CiAgICAgICAgLSB1cmw6IGh0dHA6Ly9zb21ld2hlcmUuY29tL2FwaS9wcm9tL3B1c2gK"
+      command: ["/bin/bash", "-c", "echo ${CONFIG} | base64 -d > /etc/agent/agent.yaml && /bin/agent --config.file=/etc/agent/agent.yaml --prometheus.wal-directory=/etc/agent/data"]
+      image: grafana/agent:v0.6.1
+      resources:
+        requests:
+          cpu: 1
+          memoryInGb: 1.5
+      ports:
+      - port: 8080
+  osType: Linux
+  ipAddress:
+    type: Private
+    ports:
+    - protocol: tcp
+      port: 8080
+    - protocol: tcp
+      port: 9187
+  networkProfile:
+    id: /subscriptions/mysubscription/resourceGroups/myresourcegroup/providers/Microsoft.Network/networkProfiles/netprof01
+tags:
+  exampleTag: tutorial
+type: Microsoft.ContainerInstance/containerGroups
