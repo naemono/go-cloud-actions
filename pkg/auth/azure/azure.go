@@ -27,6 +27,7 @@ type AuthConfig struct {
 	Resource       string
 }
 
+// NewGroupsClient will return a new azure resource groups client
 func NewGroupsClient(conf AuthConfig) (groupsClient resources.GroupsClient, err error) {
 	groupsClient = resources.NewGroupsClient(conf.SubscriptionID)
 
@@ -41,6 +42,7 @@ func NewGroupsClient(conf AuthConfig) (groupsClient resources.GroupsClient, err 
 	return groupsClient, nil
 }
 
+// NewVirtualNetworkPeeringsClient will return a new azure virtual network peerings client
 func NewVirtualNetworkPeeringsClient(conf AuthConfig) (vnpc network.VirtualNetworkPeeringsClient, err error) {
 	vnpc = network.NewVirtualNetworkPeeringsClient(conf.SubscriptionID)
 	if len(conf.AuxTenantIDs) > 0 {
@@ -72,6 +74,7 @@ func NewVirtualNetworkPeeringsClient(conf AuthConfig) (vnpc network.VirtualNetwo
 	return
 }
 
+// NewApplicationsClient will return a new azure graph applications client
 func NewApplicationsClient(conf AuthConfig) (appsClient graphrbac.ApplicationsClient, err error) {
 	appClient := graphrbac.NewApplicationsClient(conf.TenantID)
 
@@ -86,6 +89,7 @@ func NewApplicationsClient(conf AuthConfig) (appsClient graphrbac.ApplicationsCl
 	return appClient, nil
 }
 
+// NewRoleDefinitionsClient will return a new azure role definitions client
 func NewRoleDefinitionsClient(conf AuthConfig) (rdClient authorization.RoleDefinitionsClient, err error) {
 	rdClient = authorization.NewRoleDefinitionsClient(conf.SubscriptionID)
 
@@ -99,6 +103,7 @@ func NewRoleDefinitionsClient(conf AuthConfig) (rdClient authorization.RoleDefin
 	return rdClient, nil
 }
 
+// NewServicePrincipalsClient will return a new azure graph service principals client
 func NewServicePrincipalsClient(conf AuthConfig) (spClient graphrbac.ServicePrincipalsClient, err error) {
 	spClient = graphrbac.NewServicePrincipalsClient(conf.TenantID)
 	var a autorest.Authorizer
@@ -111,6 +116,7 @@ func NewServicePrincipalsClient(conf AuthConfig) (spClient graphrbac.ServicePrin
 	return spClient, nil
 }
 
+// NewContainerInstanceClient will return a new azure container groups client
 func NewContainerInstanceClient(conf AuthConfig) (cgClient containerinstance.ContainerGroupsClient, err error) {
 	cgClient = containerinstance.NewContainerGroupsClient(conf.SubscriptionID)
 	var a autorest.Authorizer
@@ -123,6 +129,7 @@ func NewContainerInstanceClient(conf AuthConfig) (cgClient containerinstance.Con
 	return
 }
 
+// NewNetworkProfilesClient will return a new azure network profiles client
 func NewNetworkProfilesClient(conf AuthConfig) (profClient network.ProfilesClient, err error) {
 	profClient = network.NewProfilesClient(conf.SubscriptionID)
 	var a autorest.Authorizer
@@ -135,6 +142,7 @@ func NewNetworkProfilesClient(conf AuthConfig) (profClient network.ProfilesClien
 	return
 }
 
+// NewVirtualNetworksClient will return a new azure virtual networks client
 func NewVirtualNetworksClient(conf AuthConfig) (vnetClient network.VirtualNetworksClient, err error) {
 	vnetClient = network.NewVirtualNetworksClient(conf.SubscriptionID)
 	var a autorest.Authorizer
@@ -147,6 +155,7 @@ func NewVirtualNetworksClient(conf AuthConfig) (vnetClient network.VirtualNetwor
 	return
 }
 
+// NewSubnetsClient will return a new azure network subnets client
 func NewSubnetsClient(conf AuthConfig) (snetClient network.SubnetsClient, err error) {
 	snetClient = network.NewSubnetsClient(conf.SubscriptionID)
 	var a autorest.Authorizer

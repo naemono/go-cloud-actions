@@ -16,6 +16,7 @@ func PersistentPreRun(cmd *cobra.Command, args []string) {
 	viper.BindPFlag("tenant-id", cmd.Flags().Lookup("tenant-id"))
 }
 
+// AddAuthFlagsToCommand is a shared command to add the azure auth components to any azure cobra command
 func AddAuthFlagsToCommand(cmd *cobra.Command) {
 	cmd.PersistentFlags().StringP("client-id", "c", "", "azure client id")
 	cmd.PersistentFlags().StringP("client-secret", "S", "", "azure client secret")

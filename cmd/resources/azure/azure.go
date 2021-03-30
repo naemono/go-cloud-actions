@@ -16,6 +16,7 @@ import (
 )
 
 var (
+	// AzureCmd is the base azure resources command
 	AzureCmd = &cobra.Command{
 		Use:              "azure",
 		Short:            "Control resources in azure's public clouds",

@@ -12,16 +12,19 @@ import (
 	azure_auth "github.com/naemono/go-cloud-actions/pkg/auth/azure"
 )
 
+// Config is the configuration for the azure resources package
 type Config struct {
 	azure_auth.AuthConfig
 	Logger *logrus.Entry
 }
 
+// Client is the client for the azure resources package
 type Client struct {
 	Config
 	groupsClient resources.GroupsClient
 }
 
+// New will return a new azure resources client
 func New(conf Config) (*Client, error) {
 	var err error
 	c := &Client{
@@ -39,6 +42,7 @@ func New(conf Config) (*Client, error) {
 	return c, nil
 }
 
+// CreateResourceGroup will create an azure resource group
 func (c *Client) CreateResourceGroup(ctx context.Context, name, location string) error {
 	_, err := c.groupsClient.CreateOrUpdate(ctx, name, resources.Group{
 		Name:     &name,

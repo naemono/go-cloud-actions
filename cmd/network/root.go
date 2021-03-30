@@ -7,6 +7,7 @@ import (
 )
 
 var (
+	// RootCmd is the base network command for all public clouds
 	RootCmd = &cobra.Command{
 		Use:   "network",
 		Short: "Control networks in public clouds",

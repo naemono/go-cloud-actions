@@ -16,6 +16,7 @@ import (
 )
 
 var (
+	// AzureCmd is the base azure identity command
 	AzureCmd = &cobra.Command{
 		Use:              "azure",
 		Short:            "Control identity in azure's public clouds",
