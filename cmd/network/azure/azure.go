@@ -16,6 +16,7 @@ import (
 )
 
 var (
+	// AzureCmd is the base azure network command
 	AzureCmd = &cobra.Command{
 		Use:              "azure",
 		Short:            "Control networks in azure's public clouds",

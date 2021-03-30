@@ -7,6 +7,7 @@ import (
 )
 
 var (
+	// RootCmd is the base identity command for all clouds
 	RootCmd = &cobra.Command{
 		Use:   "identity",
 		Short: "Control identity (users and permissions) in public clouds",

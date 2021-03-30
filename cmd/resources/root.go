@@ -7,6 +7,7 @@ import (
 )
 
 var (
+	// RootCmd is the base resources command for all public clouds
 	RootCmd = &cobra.Command{
 		Use:   "resources",
 		Short: "Control resources in public clouds",

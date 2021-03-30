@@ -18,7 +18,9 @@ import (
 )
 
 var (
-	ErrApplicationAlreadyExists      = errors.New("application already exists")
+	// ErrApplicationAlreadyExists is the error when an application already exists
+	ErrApplicationAlreadyExists = errors.New("application already exists")
+	// ErrServicePrincipalAlreadyExists is the error when a azure service principal already exists
 	ErrServicePrincipalAlreadyExists = errors.New("service principal already exists")
 )
 
@@ -94,6 +96,7 @@ func (c *Client) CreateServicePrincipal(ctx context.Context, appConfig Applicati
 		})
 }
 
+// ListRoleDefinitions will list azure role definitions for a given resource group, and virtual network
 func (c *Client) ListRoleDefinitions(ctx context.Context, rg, vnet string) ([]authorization.RoleDefinition, error) {
 	rdClient, err := azure_auth.NewRoleDefinitionsClient(c.AuthConfig)
 	if err != nil {
@@ -108,6 +111,7 @@ func (c *Client) ListRoleDefinitions(ctx context.Context, rg, vnet string) ([]au
 	return res.Values(), nil
 }
 
+// CreateApplicationCredentials will create/update an existing application's credentials
 func (c *Client) CreateApplicationCredentials(ctx context.Context, appConfig ApplicationConfig) (password string, err error) {
 	if appConfig.AppID == nil {
 		return "", fmt.Errorf("app id cannot be empty")

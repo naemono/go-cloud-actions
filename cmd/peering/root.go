@@ -4,9 +4,11 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/naemono/go-cloud-actions/cmd/peering/azure"
+	"github.com/naemono/go-cloud-actions/cmd/peering/google"
 )
 
 var (
+	// RootCmd is the root peering command for all public clouds
 	RootCmd = &cobra.Command{
 		Use:   "peering",
 		Short: "Control peering of VPCs/VNets in public clouds",
@@ -19,4 +21,5 @@ var (
 
 func init() {
 	RootCmd.AddCommand(azure.AzureCmd)
+	RootCmd.AddCommand(google.GoogleCmd)
 }

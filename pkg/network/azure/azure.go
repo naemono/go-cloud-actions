@@ -19,11 +19,13 @@ import (
 
 const aciDelegationServiceName = "Microsoft.ContainerInstance/containerGroups"
 
+// Config is the configuration for the azure networks peering package
 type Config struct {
 	azure_auth.AuthConfig
 	Logger *logrus.Entry
 }
 
+// Client is the client for the azure networks peering package
 type Client struct {
 	Config
 	profClient network.ProfilesClient
@@ -31,6 +33,7 @@ type Client struct {
 	snetClient network.SubnetsClient
 }
 
+// NetworkProfileRequest is a request for a new network profile
 type NetworkProfileRequest struct {
 	Name              string
 	ResourceGroupName string
@@ -41,6 +44,7 @@ type NetworkProfileRequest struct {
 	SubnetAddressCIDR string
 }
 
+// New will return a new azure networks client
 func New(conf Config) (*Client, error) {
 	var err error
 	c := &Client{
@@ -66,6 +70,7 @@ func New(conf Config) (*Client, error) {
 	return c, nil
 }
 
+// CreateNetworkProfile will create an azure network profile
 func (c *Client) CreateNetworkProfile(ctx context.Context, req NetworkProfileRequest) error {
 	err := validateNetworkProfileRequest(req)
 	if err != nil {
@@ -206,6 +211,7 @@ func validateNetworkProfileRequest(req NetworkProfileRequest) (err error) {
 	return nil
 }
 
+// ListNetworkProfiles will list all network profiles for a given resource group
 func (c *Client) ListNetworkProfiles(ctx context.Context, resourceGroupName string) error {
 	res, err := c.profClient.List(ctx, resourceGroupName)
 	if err != nil {

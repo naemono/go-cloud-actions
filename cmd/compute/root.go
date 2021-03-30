@@ -7,6 +7,7 @@ import (
 )
 
 var (
+	// RootCmd is the compute root command
 	RootCmd = &cobra.Command{
 		Use:   "compute",
 		Short: "Control compute in public clouds",

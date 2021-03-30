@@ -16,6 +16,7 @@ import (
 )
 
 var (
+	// AzureCmd is the base azure peering command
 	AzureCmd = &cobra.Command{
 		Use:              "azure",
 		Short:            "Control peering of VNets in azure's public clouds",

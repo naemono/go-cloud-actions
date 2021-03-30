@@ -22,21 +22,12 @@ import (
 )
 
 var (
+	// AzureCmd is the base azure compute command
 	AzureCmd = &cobra.Command{
 		Use:              "azure",
 		Short:            "Control compute in azure's public clouds",
 		Long:             `A cli to interact with compute in Azure's public cloud.`,
 		PersistentPreRun: shared_azure.PersistentPreRun,
-	}
-	computeCmd = &cobra.Command{
-		Use:   "compute",
-		Short: "control compute in azure's public clouds",
-		Long:  `A cli to control compute in Azure's public cloud.`,
-		PersistentPreRun: func(cmd *cobra.Command, args []string) {
-			if cmd.Parent() != nil && cmd.Parent().PersistentPreRun != nil {
-				cmd.Parent().PersistentPreRun(cmd.Parent(), args)
-			}
-		},
 	}
 	computeCreateContainerInstanceCmd = &cobra.Command{
 		Use:   "create-container-instance",
@@ -62,8 +53,7 @@ func init() {
 
 	computeCreateContainerInstanceCmd.Flags().StringP("file", "f", "", "container yaml file to deploy")
 
-	AzureCmd.AddCommand(computeCmd)
-	computeCmd.AddCommand(computeCreateContainerInstanceCmd)
+	AzureCmd.AddCommand(computeCreateContainerInstanceCmd)
 }
 
 func createContainersGroup() error {

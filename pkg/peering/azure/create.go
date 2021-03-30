@@ -28,7 +28,7 @@ func (c *Client) Create(ctx context.Context, request CreatePeeringRequest) error
 		Name:                                  &request.SourcePeeringName,
 		VirtualNetworkPeeringPropertiesFormat: getVirtualNetworkPeeringProperties(request),
 	}
-	c.Logger.Warnf("attempting to create peering with request %+v, and config: %+v", request, c.Config)
+	c.Logger.Infof("attempting to create peering with request %+v, and config: %+v", request, c.Config)
 	result, err := c.vnpClient.CreateOrUpdate(
 		ctx,
 		request.SourceResourceGroup,

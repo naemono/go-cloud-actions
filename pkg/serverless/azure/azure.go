@@ -12,18 +12,21 @@ import (
 	azure_auth "github.com/naemono/go-cloud-actions/pkg/auth/azure"
 )
 
+// Config is the configuration for the azure serverless package
 type Config struct {
 	azure_auth.AuthConfig
 	Logger *logrus.Entry
 }
 
+// Client is the client fo rthe azure serverless package
 type Client struct {
 	Config
 	cgClient containerinstance.ContainerGroupsClient
 }
 
+// CreateContainerRequest is a request to create an azure Container Instance
 type CreateContainerRequest struct {
-	ApiVersion               string                                     `json:"apiVersion,omitempty" yaml:"apiVersion,omitempty"`
+	APIVersion               string                                     `json:"apiVersion,omitempty" yaml:"apiVersion,omitempty"`
 	Type                     string                                     `json:"type,omitempty" yaml:"type,omitempty"`
 	ContainerGroupName       string                                     `json:"name" yaml:"name"`
 	Location                 string                                     `json:"location" yaml:"location"`
@@ -31,6 +34,7 @@ type CreateContainerRequest struct {
 	ContainerGroupProperties containerinstance.ContainerGroupProperties `json:"properties" yaml:"properties"`
 }
 
+// New will return a new azure serverless (container instances) client
 func New(conf Config) (*Client, error) {
 	var err error
 	c := &Client{

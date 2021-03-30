@@ -15,6 +15,7 @@ import (
 )
 
 var (
+	// CloudCmd is the root cloud command
 	CloudCmd = &cobra.Command{
 		Use:     "cloud",
 		Version: version,
