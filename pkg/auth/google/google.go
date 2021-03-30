@@ -9,7 +9,7 @@ import (
 	"google.golang.org/api/option"
 )
 
-// AuthConfig is the configuration required to generated any google api client
+// AuthConfig is the configuration required to generate any google api client
 type AuthConfig struct {
 	CredentialsFilePath string
 }
