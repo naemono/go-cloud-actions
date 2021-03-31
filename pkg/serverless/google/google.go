@@ -17,7 +17,7 @@ type ClusterCommon struct {
 	NetworkName string
 }
 
-// CreatePeeringRequest is a request to create a peering between 2 google project's networks
+// CreateClusterRequest is a request to create a gke cluster
 type CreateClusterRequest struct {
 	ClusterCommon
 	ClusterIpv4Cidr string
@@ -87,21 +87,3 @@ func (c *Client) CreateCluster(ctx context.Context, req CreateClusterRequest) er
 	c.Logger.Infof("cluster created succesfully")
 	return nil
 }
-
-// ListPeerings will list a google project's network peering
-// func (c *Client) ListPeerings(ctx context.Context, req ListPeeringRequest) error {
-// 	var (
-// 		err error
-// 		res *compute.ExchangedPeeringRoutesList
-// 	)
-// 	for _, direction := range []string{"OUTGOING", "INCOMING"} {
-// 		res, err = c.networksServiceClient.ListPeeringRoutes(req.ProjectID, req.NetworkName).PeeringName(req.PeeringName).Region(req.Region).Direction(direction).Do()
-// 		if err != nil {
-// 			return err
-// 		}
-// 		for _, r := range res.Items {
-// 			c.Logger.Infof("peer: %+v", r)
-// 		}
-// 	}
-// 	return nil
-// }
