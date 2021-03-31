@@ -4,6 +4,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/naemono/go-cloud-actions/cmd/compute/azure"
+	"github.com/naemono/go-cloud-actions/cmd/compute/google"
 )
 
 var (
@@ -20,4 +21,5 @@ var (
 
 func init() {
 	RootCmd.AddCommand(azure.AzureCmd)
+	RootCmd.AddCommand(google.GoogleCmd)
 }
