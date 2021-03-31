@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-config
+  namespace: dbasvcs
+data:
+  agent.yaml: |
+    server:
+      log_level: info
+
+    prometheus:
+      global:
+        scrape_interval: 15s
+      configs:
+        - name: gcp-test
+          host_filter: false
+          scrape_configs:
+            - job_name: 'agent-aws-test'
+              metrics_path: /metrics
+              scheme: http
+              static_configs:
+              - targets: ['localhost:9090']
+            - job_name: 'postgres-gcp-test'
+              scrape_interval: 60s
+              scrape_timeout: 10s
+              metrics_path: /metrics
+              scheme: http
+              static_configs:
+              - targets:
+                - localhost:9187
+
+          remote_write:
+            - url: http://distributor.dbasvcsdev.objectrocket.cloud/api/prom/push
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: postgres-container-group
+  name: postgres-container-group
+  namespace: dbasvcs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-container-group
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: postgres-container-group
+    spec:
+      containers:
+      - image: quay.io/prometheuscommunity/postgres-exporter:latest
+        name: postgres-exporter
+        ports:
+        - containerPort: 9187
+        env:
+        - name: DATA_SOURCE_NAME
+          value: "postgresql://postgres:--redacted--@10.0.0.12:5432/postgres?sslmode=disable"
+        resources:
+          limits:
+            cpu: 10m
+            ephemeral-storage: 100M
+            memory: 100Mi
+          requests:
+            cpu: 10m
+            ephemeral-storage: 100M
+            memory: 100Mi
+      - image: grafana/agent:v0.6.1
+        name: grafana-agent
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/agent
+        command: [ "/bin/agent", "--config.file=/etc/agent/agent.yaml", "--prometheus.wal-directory=/tmp/data" ]
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: 20m
+            ephemeral-storage: 100M
+            memory: 500Mi
+          requests:
+            cpu: 20m
+            ephemeral-storage: 100M
+            memory: 500Mi
+      volumes:
+      - name: config-volume
+        configMap:
+          name: grafana-config
