@@ -24,8 +24,8 @@ func NewNetworkClient(ctx context.Context, conf AuthConfig) (*compute.NetworksSe
 	return compute.NewNetworksService(svc), nil
 }
 
-// NewContainerslient will return a new google containers (gke) client with a given configuration
-func NewContainerslient(ctx context.Context, conf AuthConfig) (*container.ProjectsService, error) {
+// NewContainersClient will return a new google containers (gke) client with a given configuration
+func NewContainersClient(ctx context.Context, conf AuthConfig) (*container.ProjectsService, error) {
 	svc, err := container.NewService(ctx, option.WithCredentialsFile(conf.CredentialsFilePath))
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to generate new google containers service")

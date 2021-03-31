@@ -48,7 +48,7 @@ type Client struct {
 func New(conf Config) (*Client, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
-	containersClient, err := google_auth.NewContainerslient(ctx, conf.AuthConfig)
+	containersClient, err := google_auth.NewContainersClient(ctx, conf.AuthConfig)
 	if err != nil {
 		return nil, err
 	}
