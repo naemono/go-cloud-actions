@@ -26,12 +26,6 @@ type CreateClusterRequest struct {
 	Name            string
 }
 
-// ListPeeringRequest is a request to list peerings for a specified project/network/peering name
-type ListPeeringRequest struct {
-	ClusterCommon
-	Region string
-}
-
 // Config is an google peering config
 type Config struct {
 	google_auth.AuthConfig
