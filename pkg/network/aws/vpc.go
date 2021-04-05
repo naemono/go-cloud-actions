@@ -118,7 +118,7 @@ func (c *Client) CreateVPC(ctx context.Context, request CreateVpcRequest) error 
 func (c *Client) ListVPCs(ctx context.Context) ([]types.Vpc, error) {
 	response, err := c.ec2Client.DescribeVpcs(ctx, &ec2.DescribeVpcsInput{
 		DryRun: false,
-	})
+	}, withLogger(newEc2Logger(c.Logger)))
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to list vpcs")
 	}
@@ -129,7 +129,7 @@ func (c *Client) ListVPCs(ctx context.Context) ([]types.Vpc, error) {
 func (c *Client) DeleteVPC(ctx context.Context, id string) error {
 	_, err := c.ec2Client.DeleteVpc(ctx, &ec2.DeleteVpcInput{
 		VpcId: to.StringPtr(id),
-	})
+	}, withLogger(newEc2Logger(c.Logger)))
 	if err != nil {
 		return errors.Wrapf(err, "failed to delete vpc id %s", id)
 	}
@@ -143,7 +143,7 @@ func (c *Client) CreateSubnetInVPC(ctx context.Context, request CreateVpcSubnetR
 		CidrBlock:        &request.CidrBlock,
 		VpcId:            &request.VPCId,
 		AvailabilityZone: &request.AvailabilityZone,
-	})
+	}, withLogger(newEc2Logger(c.Logger)))
 	if err != nil {
 		return errors.Wrap(err, "failed to create subnet in vpc")
 	}
@@ -159,7 +159,7 @@ func (c *Client) ListSubnetsInVPC(ctx context.Context, vpcID string) ([]types.Su
 				Values: []string{vpcID},
 			},
 		},
-	})
+	}, withLogger(newEc2Logger(c.Logger)))
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to list subnets in vpc")
 	}
