@@ -1,6 +1,6 @@
 # Public Cloud Common Commands/Actions
 
-This repo contains some common commands that are run in public clouds (currently azure).
+This repo contains some common commands that are run in public clouds (currently azure, gcp, and aws).
 
 ```bash
 $ ./bin/cloud -h
@@ -28,8 +28,8 @@ Use "cloud [command] --help" for more information about a command.
 
 | Command       | SubCommands                   | Description    |
 | -----------   | -----------                   | ----------      |
-| compute       | create-container-instance     | Create Container Instances |
+| compute       | create-container-instance, create-cluster     | Create Container Instances, Create GKE cluster |
 | identity      | applications [add, add-credentials], roles [list], users  [add]  | Add Appications/Users |
-| network       | network-profile  [add, list]  | Add/List Network Profiles |
+| network       | network-profile  [add, list], vpc [create, create-subnet, delete, list, list-subnets], regions [az-list]  | Add/List Network Profiles, CRUD operations on AWS VPCs, Availability zone listing |
 | peering       | [create, list]                | Add/List Network Peerings |
 | resources     | resource-groups [add]         | Add Resource Groups |
