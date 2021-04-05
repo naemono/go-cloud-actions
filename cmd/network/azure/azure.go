@@ -2,7 +2,6 @@ package azure
 
 import (
 	"context"
-	"fmt"
 	"strings"
 	"time"
 
@@ -13,6 +12,7 @@ import (
 	auth_azure "github.com/naemono/go-cloud-actions/pkg/auth/azure"
 	"github.com/naemono/go-cloud-actions/pkg/logging"
 	azure_network "github.com/naemono/go-cloud-actions/pkg/network/azure"
+	"github.com/naemono/go-cloud-actions/pkg/validate"
 )
 
 var (
@@ -50,20 +50,10 @@ var (
 			viper.BindPFlag("subnet-cidr", cmd.Flags().Lookup("subnet-cidr"))
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if viper.GetString("name") == "" {
-				return fmt.Errorf("name cannot be empty")
-			}
-			if viper.GetString("resource-group") == "" {
-				return fmt.Errorf("resource-group cannot be empty")
-			}
-			if viper.GetString("location") == "" {
-				return fmt.Errorf("location cannot be empty")
-			}
-			if viper.GetString("vnet-name") == "" {
-				return fmt.Errorf("vnet-name cannot be empty")
-			}
-			if viper.GetString("subnet-name") == "" {
-				return fmt.Errorf("subnet-name cannot be empty")
+			if err := validate.NotEmpty(
+				viper.GetViper(),
+				[]string{"name", "resource-group", "location", "vnet-name", "subnet-name"}); err != nil {
+				return err
 			}
 			return createNetworkProfile()
 		},
@@ -79,8 +69,8 @@ var (
 			viper.BindPFlag("resource-group", cmd.Flags().Lookup("resource-group"))
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if viper.GetString("resource-group") == "" {
-				return fmt.Errorf("resource-group cannot be empty")
+			if err := validate.NotEmpty(viper.GetViper(), []string{"resource-group"}); err != nil {
+				return err
 			}
 			return listNetworkProfiles()
 		},

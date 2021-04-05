@@ -2,8 +2,6 @@ package azure
 
 import (
 	"context"
-	"errors"
-	"fmt"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -13,6 +11,7 @@ import (
 	auth_azure "github.com/naemono/go-cloud-actions/pkg/auth/azure"
 	azure_identity "github.com/naemono/go-cloud-actions/pkg/identity/azure"
 	"github.com/naemono/go-cloud-actions/pkg/logging"
+	"github.com/naemono/go-cloud-actions/pkg/validate"
 )
 
 var (
@@ -45,11 +44,8 @@ var (
 			viper.BindPFlag("display-name", cmd.Flags().Lookup("display-name"))
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if viper.GetString("app-id") == "" {
-				return fmt.Errorf("app-id cannot be empty")
-			}
-			if viper.GetString("display-name") == "" {
-				return fmt.Errorf("display-name cannot be empty")
+			if err := validate.NotEmpty(viper.GetViper(), []string{"app-id", "display-name"}); err != nil {
+				return err
 			}
 			return createUser()
 		},
@@ -78,8 +74,8 @@ var (
 			viper.BindPFlag("identifier-uris", cmd.Flags().Lookup("identifier-uris"))
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if viper.GetString("display-name") == "" {
-				return errors.New("display-name cannot be empty")
+			if err := validate.NotEmpty(viper.GetViper(), []string{"display-name"}); err != nil {
+				return err
 			}
 			return createApplication()
 		},
@@ -96,11 +92,8 @@ var (
 			viper.BindPFlag("display-name", cmd.Flags().Lookup("display-name"))
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if viper.GetString("app-id") == "" {
-				return fmt.Errorf("app-id cannot be empty")
-			}
-			if viper.GetString("display-name") == "" {
-				return errors.New("display-name cannot be empty")
+			if err := validate.NotEmpty(viper.GetViper(), []string{"app-id", "display-name"}); err != nil {
+				return err
 			}
 			return updateApplicationCredentials()
 		},
@@ -115,11 +108,8 @@ var (
 			}
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if viper.GetString("resource-group") == "" {
-				return fmt.Errorf("resource-group cannot be empty")
-			}
-			if viper.GetString("vnet-name") == "" {
-				return errors.New("vnet-name cannot be empty")
+			if err := validate.NotEmpty(viper.GetViper(), []string{"resource-group", "vnet-name"}); err != nil {
+				return err
 			}
 			return nil
 		},

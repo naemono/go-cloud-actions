@@ -13,6 +13,7 @@ import (
 	auth_azure "github.com/naemono/go-cloud-actions/pkg/auth/azure"
 	"github.com/naemono/go-cloud-actions/pkg/logging"
 	peering_azure "github.com/naemono/go-cloud-actions/pkg/peering/azure"
+	"github.com/naemono/go-cloud-actions/pkg/validate"
 )
 
 var (
@@ -40,26 +41,12 @@ var (
 			viper.BindPFlag("target-subscription-id", cmd.Flags().Lookup("target-subscription-id"))
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if viper.GetString("source-resource-group") == "" {
-				return fmt.Errorf("source-resource-group cannot be empty")
-			}
-			if viper.GetString("source-virtual-network") == "" {
-				return fmt.Errorf("source-virtual-network cannot be empty")
-			}
-			if viper.GetString("source-peering-name") == "" {
-				return fmt.Errorf("source-peering-name cannot be empty")
-			}
-			if viper.GetString("target-tenant-id") == "" {
-				return fmt.Errorf("target-tenant-id cannot be empty")
-			}
-			if viper.GetString("target-resource-group") == "" {
-				return fmt.Errorf("target-resource-group cannot be empty")
-			}
-			if viper.GetString("target-virtual-network") == "" {
-				return fmt.Errorf("target-virtual-network cannot be empty")
-			}
-			if viper.GetString("target-subscription-id") == "" {
-				return fmt.Errorf("target-subscription-id cannot be empty")
+			if err := validate.NotEmpty(
+				viper.GetViper(),
+				[]string{
+					"source-resource-group", "source-virtual-network", "source-peering-name", "target-tenant-id",
+					"target-resource-group", "target-virtual-network", "target-subscription-id"}); err != nil {
+				return err
 			}
 			return createPeering()
 		},
