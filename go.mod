@@ -11,6 +11,9 @@ require (
 	github.com/Azure/go-autorest/autorest/date v0.3.0
 	github.com/Azure/go-autorest/autorest/to v0.4.0
 	github.com/Azure/go-autorest/autorest/validation v0.3.1 // indirect
+	github.com/aws/aws-sdk-go-v2/config v1.1.4
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.3.0
+	github.com/aws/smithy-go v1.3.0
 	github.com/davecgh/go-spew v1.1.1
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.8.1

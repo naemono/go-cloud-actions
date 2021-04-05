@@ -3,7 +3,6 @@ package azure
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"time"
 
@@ -19,6 +18,7 @@ import (
 	auth_azure "github.com/naemono/go-cloud-actions/pkg/auth/azure"
 	"github.com/naemono/go-cloud-actions/pkg/logging"
 	azure_serverless "github.com/naemono/go-cloud-actions/pkg/serverless/azure"
+	"github.com/naemono/go-cloud-actions/pkg/validate"
 )
 
 var (
@@ -40,8 +40,8 @@ var (
 			viper.BindPFlag("file", cmd.Flags().Lookup("file"))
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if viper.GetString("file") == "" {
-				return fmt.Errorf("file name cannot be empty")
+			if err := validate.NotEmpty(viper.GetViper(), []string{"file"}); err != nil {
+				return err
 			}
 			return createContainersGroup()
 		},

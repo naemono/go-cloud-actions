@@ -2,7 +2,6 @@ package google
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -11,6 +10,7 @@ import (
 	google_auth "github.com/naemono/go-cloud-actions/pkg/auth/google"
 	"github.com/naemono/go-cloud-actions/pkg/logging"
 	serverless_google "github.com/naemono/go-cloud-actions/pkg/serverless/google"
+	"github.com/naemono/go-cloud-actions/pkg/validate"
 )
 
 var (
@@ -42,26 +42,10 @@ var (
 			viper.BindPFlag("name", cmd.Flags().Lookup("name"))
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if viper.GetString("google-credentials-file-path") == "" {
-				return fmt.Errorf("google-credentials-file-path cannot be empty")
-			}
-			if viper.GetString("project-id") == "" {
-				return fmt.Errorf("project-id cannot be empty")
-			}
-			if viper.GetString("network-name") == "" {
-				return fmt.Errorf("network-name cannot be empty")
-			}
-			if viper.GetString("cluster-ipv4-cidr") == "" {
-				return fmt.Errorf("cluster-ipv4-cidr cannot be empty")
-			}
-			if viper.GetString("description") == "" {
-				return fmt.Errorf("description cannot be empty")
-			}
-			if viper.GetString("location") == "" {
-				return fmt.Errorf("location cannot be empty")
-			}
-			if viper.GetString("name") == "" {
-				return fmt.Errorf("name cannot be empty")
+			if err := validate.NotEmpty(
+				viper.GetViper(),
+				[]string{"google-credentials-file-path", "project-id", "network-name", "cluster-ipv4-cidr", "description", "location", "name"}); err != nil {
+				return err
 			}
 			return createCluster()
 		},

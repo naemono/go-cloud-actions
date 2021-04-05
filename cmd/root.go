@@ -42,7 +42,7 @@ func init() {
 
 // Run will run the main command
 func Run() {
-	logging.GetLogger(viper.GetString("loglevel")).Infof("running cloud version: %s", version)
+	logging.GetLogger(viper.GetString("loglevel")).Debugf("running cloud version: %s", version)
 	if err := CloudCmd.Execute(); err != nil {
 		logrus.WithError(err).Fatal("failure running cloud command")
 	}

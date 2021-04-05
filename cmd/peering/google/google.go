@@ -11,6 +11,7 @@ import (
 	google_auth "github.com/naemono/go-cloud-actions/pkg/auth/google"
 	"github.com/naemono/go-cloud-actions/pkg/logging"
 	peering_google "github.com/naemono/go-cloud-actions/pkg/peering/google"
+	"github.com/naemono/go-cloud-actions/pkg/validate"
 )
 
 var (
@@ -41,23 +42,12 @@ var (
 			viper.BindPFlag("remote-network-name", cmd.Flags().Lookup("remote-network-name"))
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if viper.GetString("google-credentials-file-path") == "" {
-				return fmt.Errorf("google-credentials-file-path cannot be empty")
-			}
-			if viper.GetString("project-id") == "" {
-				return fmt.Errorf("project-id cannot be empty")
-			}
-			if viper.GetString("network-name") == "" {
-				return fmt.Errorf("network-name cannot be empty")
-			}
-			if viper.GetString("peering-name") == "" {
-				return fmt.Errorf("peering-name cannot be empty")
-			}
-			if viper.GetString("remote-project-name") == "" {
-				return fmt.Errorf("remote-project-name cannot be empty")
-			}
-			if viper.GetString("remote-network-name") == "" {
-				return fmt.Errorf("remote-network-name cannot be empty")
+			if err := validate.NotEmpty(
+				viper.GetViper(),
+				[]string{
+					"google-credentials-file-path", "project-id", "network-name", "peering-name",
+					"remote-project-name", "remote-network-name"}); err != nil {
+				return err
 			}
 			return createPeering()
 		},

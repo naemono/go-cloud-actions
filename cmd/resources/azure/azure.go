@@ -2,7 +2,6 @@ package azure
 
 import (
 	"context"
-	"fmt"
 	"strings"
 	"time"
 
@@ -13,6 +12,7 @@ import (
 	auth_azure "github.com/naemono/go-cloud-actions/pkg/auth/azure"
 	"github.com/naemono/go-cloud-actions/pkg/logging"
 	azure_resources "github.com/naemono/go-cloud-actions/pkg/resources/azure"
+	"github.com/naemono/go-cloud-actions/pkg/validate"
 )
 
 var (
@@ -45,11 +45,8 @@ var (
 			viper.BindPFlag("location", cmd.Flags().Lookup("location"))
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if viper.GetString("name") == "" {
-				return fmt.Errorf("name cannot be empty")
-			}
-			if viper.GetString("location") == "" {
-				return fmt.Errorf("location cannot be empty")
+			if err := validate.NotEmpty(viper.GetViper(), []string{"name", "location"}); err != nil {
+				return err
 			}
 			return createResourceGroup()
 		},
